@@ -39,6 +39,11 @@ class ContactController extends Controller
         ]);
 
         try {
+            Telegram::sendMessage([
+                'chat_id' => env('TELEGRAM_CHAT_ID'), // Ganti dengan chat ID Anda
+                'text' => 'Nama: ' . $request->name . ' - ' . $request->phone,
+            ]);
+
             Contact::create($data);
             DB::commit();
             return redirect('/contact')->with('success', 'Sukses di Simpan!');
@@ -77,10 +82,7 @@ class ContactController extends Controller
         ]);
 
         try {
-            Telegram::sendMessage([
-                'chat_id' => env('TELEGRAM_CHAT_ID'), // Ganti dengan chat ID Anda
-                'text' => 'Nama:' . $request->name . ' - ' . $request->phone,
-            ]);
+
 
             Contact::where('id', $contact->id)->update($data);
             DB::commit();
